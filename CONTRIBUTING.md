@@ -26,8 +26,8 @@ regimen is a combined frontend + backend Node/TypeScript/React application. Befo
 
 ### Prerequisites
 
-- Node.js (LTS version recommended)
-- npm or yarn
+- **Node.js ≥20.0.0** (required per `engines` in package.json)
+- npm (comes with Node.js)
 - Docker (for containerized development/testing)
 - A Google OAuth client ID (for authentication testing)
 
@@ -71,9 +71,33 @@ docker run -p 3000:3000 -v /path/to/data:/data regimen:local
 ### TypeScript
 
 - Use TypeScript for all new code (both frontend and backend)
-- Enable strict mode in TypeScript configuration
+- The project uses **strict mode** with additional checks enabled in `tsconfig.base.json`:
+  - `strict: true` - Enables all strict type-checking options
+  - `noImplicitAny: true` - No implicit `any` types allowed
+  - `noImplicitReturns: true` - Functions must explicitly return on all code paths
+  - `noFallthroughCasesInSwitch: true` - Switch cases must `break` or `return`
+  - `noUncheckedIndexedAccess: true` - Array/object index access may be `undefined`
+  - `noUnusedLocals: true` - No unused local variables
+  - `noUnusedParameters: true` - No unused function parameters
 - Prefer explicit type annotations for function parameters and return types
 - Avoid using `any` type; use `unknown` or proper typing instead
+
+### ESLint
+
+The project uses ESLint for code linting. Run linting with:
+
+```bash
+# Lint both frontend and backend
+npm run lint
+
+# Lint frontend only
+npm run lint -w frontend
+
+# Lint backend only
+npm run lint -w backend
+```
+
+Fix any linting errors before submitting a PR. The CI pipeline will fail if linting errors are present.
 
 ### React (Frontend)
 
@@ -127,9 +151,37 @@ Fixes #123
 
 ### Testing
 
+The project uses **Vitest** as the test runner for both frontend and backend.
+
+#### Running Tests
+
+```bash
+# Run all tests (frontend and backend)
+npm test
+
+# Run tests in watch mode
+npm run test:watch -w frontend  # or -w backend
+
+# Run frontend tests only
+npm run test -w frontend
+
+# Run backend tests only
+npm run test -w backend
+```
+
+#### Test Requirements
+
 - Write tests for new features and bug fixes
 - Ensure existing tests pass before submitting a PR
 - Test both frontend and backend changes appropriately
+- Focus on testing business logic (eligibility rules, sorting algorithms)
+- Frontend components should have basic render tests
+- API endpoints need integration tests
+
+#### Test File Organization
+
+- Frontend tests: `frontend/src/__tests__/` or co-located with components as `*.test.ts(x)`
+- Backend tests: `backend/src/__tests__/` or co-located as `*.test.ts`
 
 ---
 
