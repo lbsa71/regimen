@@ -71,18 +71,32 @@ The application is intentionally lightweight:
 - Consider backward compatibility with existing user data
 
 ### Changing Sort Logic
-- Located in the main view/component
+- Located in `src/client/utils/exercises.ts`
 - Test thoroughly as this is core UX
+- Tests are in `src/client/__tests__/exercises.test.ts`
 
-## File Structure (Expected)
+## File Structure
 
 ```
-/
-├── frontend/          # React TypeScript application
-├── backend/           # Node.js TypeScript server
-├── Dockerfile         # Single image build
-├── docker-compose.yml # Local development setup
-└── .github/workflows/ # CI/CD to ghcr.io
+regimen/
+├── frontend/                 # React/Vite workspace (entry point, build config)
+│   └── src/                  # Frontend-specific sources
+├── backend/                  # Express.js workspace
+│   └── src/                  # Backend server code
+├── src/
+│   └── client/               # Shared React components, hooks, utils
+│       ├── components/       # ExerciseList, ExerciseRow, Header, SignIn
+│       ├── hooks/            # useAuth, useApi
+│       ├── types/            # TypeScript type definitions
+│       ├── utils/            # Exercise sorting, eligibility, formatting
+│       └── __tests__/        # Frontend tests
+├── public/                   # Static assets
+├── .github/workflows/        # CI/CD to ghcr.io
+├── Dockerfile                # Multi-stage build
+├── tsconfig.base.json        # Shared TypeScript config
+├── ARCHITECTURE.md           # Detailed architecture documentation
+├── CONTRIBUTING.md           # Contribution guidelines
+└── README.md                 # Project overview
 ```
 
 ## Environment Variables
