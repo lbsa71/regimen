@@ -10,7 +10,7 @@ export function SignIn({ clientId }: SignInProps): React.ReactElement {
   const buttonRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (isLoading) return;
+    if (isLoading) return undefined;
 
     const renderButton = () => {
       if (window.google && buttonRef.current) {
@@ -31,23 +31,24 @@ export function SignIn({ clientId }: SignInProps): React.ReactElement {
         },
       });
       renderButton();
-    } else {
-      // Wait for script to load
-      const checkGoogle = setInterval(() => {
-        if (window.google) {
-          clearInterval(checkGoogle);
-          window.google.accounts.id.initialize({
-            client_id: clientId,
-            callback: () => {
-              // This callback is handled by AuthProvider
-            },
-          });
-          renderButton();
-        }
-      }, 100);
-
-      return () => clearInterval(checkGoogle);
+      return undefined;
     }
+
+    // Wait for script to load
+    const checkGoogle = setInterval(() => {
+      if (window.google) {
+        clearInterval(checkGoogle);
+        window.google.accounts.id.initialize({
+          client_id: clientId,
+          callback: () => {
+            // This callback is handled by AuthProvider
+          },
+        });
+        renderButton();
+      }
+    }, 100);
+
+    return () => clearInterval(checkGoogle);
   }, [clientId, isLoading]);
 
   if (isLoading) {

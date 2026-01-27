@@ -5,7 +5,7 @@ This is the React/TypeScript frontend for the regimen training tracker.
 ## Structure
 
 ```
-src/client/
+frontend/src/
 ├── components/         # React components
 │   ├── ExerciseList.tsx   # Main exercise list view
 │   ├── ExerciseRow.tsx    # Individual exercise row with input
@@ -93,21 +93,21 @@ Provides API communication functions:
 
 ## Testing
 
-Tests are located in `__tests__/` and use Vitest. Run tests with:
+Tests are located in `src/__tests__/` and use Vitest. Run tests with:
 
 ```bash
-npm test
+npm test -w frontend
 ```
 
 ## Development
 
 ```bash
-# Install dependencies
+# Install dependencies (from root)
 npm install
 
 # Start development server
-npm run dev
+npm run dev -w frontend
 
 # Build for production
-npm run build
+npm run build -w frontend
 ```
