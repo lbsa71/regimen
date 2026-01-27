@@ -151,7 +151,7 @@ regimen/
 | GET | `/api/health` | Health check |
 | GET | `/api/exercises` | List all exercises with history |
 | POST | `/api/exercises/:id/log` | Log a completed exercise |
-| GET | `/api/history` | Get user's exercise history |
+| GET | `/api/exercises/history` | Get user's exercise history |
 
 ### Authentication
 
