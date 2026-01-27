@@ -1,6 +1,8 @@
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import exercisesRouter from './routes/exercises.js';
+import { ensureDataDir } from './services/storage.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -9,6 +11,9 @@ const app = express();
 const PORT = process.env['PORT'] ?? 3000;
 
 app.use(express.json());
+
+// API routes
+app.use('/api/exercises', exercisesRouter);
 
 app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok' });
@@ -25,6 +30,11 @@ if (process.env['NODE_ENV'] === 'production') {
   });
 }
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+async function start() {
+  await ensureDataDir();
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
+
+start();
