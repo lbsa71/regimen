@@ -1,167 +1,99 @@
 # regimen
 
-A simple, opinionated training regimen tracker to make sure you **do stuff**, do it **evenly**, and **not too often**.
+> A simple, opinionated training regimen tracker that helps you **do stuff**, do it **evenly**, and **not too often**.
 
-`regimen` is a combined **frontend + backend** Node/TypeScript/React application packaged as a **single Docker image** and automatically published to **GitHub Container Registry (ghcr)** on every push to `main`.
+No programs. No percentages. No periodization. Just consistency.
 
----
+## Quick Start
 
-## What is this?
+```bash
+docker run -d \
+  -p 3000:3000 \
+  -v ./data:/data \
+  -e GOOGLE_CLIENT_ID=your-client-id \
+  -e GOOGLE_CLIENT_SECRET=your-client-secret \
+  ghcr.io/<owner>/regimen:latest
+```
 
-`regimen` helps you track a predefined set of exercises and decide *what to train today* without overthinking:
+Then open http://localhost:3000 and sign in with Google.
 
-* You only see exercises that are **eligible** (you didn’t do them yesterday)
-* You’re nudged toward **even proportions** (push / pull / legs)
-* Exercises you’ve skipped recently bubble to the top
+## What It Does
 
-No programs. No percentages. Just consistency.
+**regimen** decides *what to train today* so you don't have to overthink it:
 
----
+- Shows only **eligible** exercises (not done yesterday)
+- Nudges you toward **balanced** training (push / pull / legs)
+- Surfaces **neglected** exercises at the top
 
-## Core Concepts
+Each exercise requires one full rest day between sessions. That's the only rule.
 
-### Exercises
+## How It Works
 
-Exercises are defined from a fixed list (see below) and grouped into the classic:
-
-* **Push** (Bröst, Axlar och Triceps)
-* **Pull** (Rygg och Biceps)
-* **Legs** (Ben)
-
-You may claim **any eligible exercise in any order**, regardless of group.
-
----
-
-### Eligibility Rules
-
-An exercise is **eligible** if:
-
-* You did **not** perform it **yesterday**
-
-That’s it. Every exercise requires at least **one full rest day** between sessions.
-
----
-
-### Sorting Logic
-
-The main view is sorted in the following order:
+### Sorting Priority
 
 1. **Category**: Push → Pull → Legs
-2. **14‑day frequency**: Exercises you’ve done *less* in the last 14 days appear first
-3. **Recency**: Exercises done the *longest time ago* appear higher
+2. **14-day frequency**: Less frequent exercises appear first
+3. **Recency**: Exercises done longest ago rank higher
 
-This naturally prioritizes:
+### Exercise Categories
 
-* Neglected movements
-* Long‑ignored exercises
-* Balanced weekly volume
+| Push | Pull | Legs |
+|------|------|------|
+| Dips | Back extensions | Ben Press |
+| Bröst Press | Reverse Flye | Leg Curls |
+| Axel Press | Latsdrag | Leg extensions |
+| Sidolyft | Rodd | Calf raises |
+| Plankan | Bicep curls | Dead Bugs |
 
----
+## Development
 
-## Exercise Display
+### Prerequisites
 
-Each exercise row shows:
+- Node.js 20+
+- Google OAuth credentials
 
-* **Last performed date** (format: `ddd dd/mm`)
-* **Last three sessions** (weight + reps, read‑only)
-* **Input cell (eligible only)**:
+### Local Setup
 
-  * Weight input
-  * Reps input
-  * Prefilled with your previous values
-  * A green **“Did it today”** button
+```bash
+git clone https://github.com/<owner>/regimen.git
+cd regimen
+npm install
+npm run dev
+```
 
-Once claimed, the exercise becomes ineligible until the next day.
+Frontend runs at `http://localhost:3000`, backend at `http://localhost:3001`.
 
----
+### Docker Build
 
-## Weight Handling
-
-* Weight can be entered in **kg or lbs**
-* The other unit is **automatically calculated**
-* Both units are always displayed
-
-Conversion is handled client‑side for immediate feedback.
-
----
-
-## Authentication & Storage
-
-### Authentication
-
-* Google OAuth is used for sign‑in (frontend)
-* Each user is identified by their **Google ID**
-
-### Storage
-
-* Backend stores a **simple file‑based datastore**
-* Data is saved **per Google ID**
-* Files are written directly to the **Docker host filesystem** (mounted volume)
-
-This keeps the system intentionally lightweight and transparent.
-
----
+```bash
+docker build -t regimen:local .
+docker run -p 3000:3000 -v ./data:/data \
+  -e GOOGLE_CLIENT_ID=... \
+  -e GOOGLE_CLIENT_SECRET=... \
+  regimen:local
+```
 
 ## Architecture
 
-* **Frontend**: React + TypeScript
-* **Backend**: Node.js + TypeScript
-* **Deployment**: Single Docker image (frontend + backend)
-* **CI/CD**: Built and pushed to **ghcr.io** on every push to `main`
+| Component | Stack |
+|-----------|-------|
+| Frontend | React, TypeScript, Vite |
+| Backend | Node.js, Express, TypeScript |
+| Storage | File-based JSON (per user) |
+| Auth | Google OAuth |
+| Deployment | Single Docker image → ghcr.io |
 
-The container is fully self‑contained except for:
-
-* Google OAuth credentials
-* A mounted data directory on the host
-
----
-
-## Exercises
-
-### Bröst, Axlar och Triceps (Push)
-
-* Dips (triceps)
-* Bröst Press
-* Axel Press (overhead)
-* Sidolyft
-* Plankan
-
-### Rygg och Biceps (Pull)
-
-* Back extensions
-* Reverse Flye (Peck deck / rear delts)
-* Latsdrag (lat pulldown)
-* Rodd
-* Bicep curls
-
-### Ben (Legs)
-
-* Ben Press
-* Leg Curls
-* Leg extensions (benspark)
-* Calf raises
-* Dead Bugs
-
----
+See [ARCHITECTURE.md](ARCHITECTURE.md) for details.
 
 ## Philosophy
 
-This app intentionally avoids:
+This app intentionally avoids complexity. No fatigue modeling, no PR chasing, no auto-adjustment. If you train consistently, the app is doing its job.
 
-* Complex programming logic
-* Periodization
-* Fatigue modeling
-* PR chasing
+## Documentation
 
-Instead, it optimizes for:
-
-* Showing up
-* Even distribution
-* Not doing the same thing too often
-
-If you train consistently, the app is doing its job.
-
----
+- [ARCHITECTURE.md](ARCHITECTURE.md) - Technical architecture and deployment
+- [CONTRIBUTING.md](CONTRIBUTING.md) - Development guidelines
+- [CLAUDE.md](CLAUDE.md) - AI assistant context
 
 ## License
 
