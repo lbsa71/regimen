@@ -181,7 +181,7 @@ npm run test -w backend
 #### Test File Organization
 
 - Frontend tests: `frontend/src/__tests__/` or co-located with components as `*.test.ts(x)`
-- Backend tests: `backend/src/__tests__/` or co-located as `*.test.ts`
+- Backend tests: `backend/tests/` or co-located as `*.test.ts`
 
 ---
 

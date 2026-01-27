@@ -117,9 +117,9 @@ describe('sortExercises', () => {
     ];
 
     const sorted = sortExercises(exercises);
-    expect(sorted[0].category).toBe('push');
-    expect(sorted[1].category).toBe('pull');
-    expect(sorted[2].category).toBe('legs');
+    expect(sorted[0]?.category).toBe('push');
+    expect(sorted[1]?.category).toBe('pull');
+    expect(sorted[2]?.category).toBe('legs');
   });
 
   it('sorts by 14-day frequency within same category (less frequent first)', () => {
@@ -145,8 +145,8 @@ describe('sortExercises', () => {
     ];
 
     const sorted = sortExercises(exercises);
-    expect(sorted[0].id).toBe('push-2'); // Less frequent first
-    expect(sorted[1].id).toBe('push-1');
+    expect(sorted[0]?.id).toBe('push-2'); // Less frequent first
+    expect(sorted[1]?.id).toBe('push-1');
   });
 
   it('sorts by recency within same category and frequency (longest ago first)', () => {
@@ -172,8 +172,8 @@ describe('sortExercises', () => {
     ];
 
     const sorted = sortExercises(exercises);
-    expect(sorted[0].id).toBe('push-2'); // Longest ago first
-    expect(sorted[1].id).toBe('push-1');
+    expect(sorted[0]?.id).toBe('push-2'); // Longest ago first
+    expect(sorted[1]?.id).toBe('push-1');
   });
 
   it('puts never-performed exercises at the top', () => {
@@ -199,8 +199,8 @@ describe('sortExercises', () => {
     ];
 
     const sorted = sortExercises(exercises);
-    expect(sorted[0].id).toBe('push-2'); // Never performed first
-    expect(sorted[1].id).toBe('push-1');
+    expect(sorted[0]?.id).toBe('push-2'); // Never performed first
+    expect(sorted[1]?.id).toBe('push-1');
   });
 });
 
@@ -255,9 +255,9 @@ describe('getLastThreeSessions', () => {
     ];
     const result = getLastThreeSessions(history);
     expect(result).toHaveLength(3);
-    expect(result[0].date).toBe('2024-01-14T10:00:00.000Z');
-    expect(result[1].date).toBe('2024-01-12T10:00:00.000Z');
-    expect(result[2].date).toBe('2024-01-10T10:00:00.000Z');
+    expect(result[0]?.date).toBe('2024-01-14T10:00:00.000Z');
+    expect(result[1]?.date).toBe('2024-01-12T10:00:00.000Z');
+    expect(result[2]?.date).toBe('2024-01-10T10:00:00.000Z');
   });
 });
 
@@ -290,8 +290,8 @@ describe('addExerciseStatus', () => {
     const result = addExerciseStatus(exercises, today);
 
     expect(result).toHaveLength(1);
-    expect(result[0].isEligible).toBe(true);
-    expect(result[0].frequency14Days).toBe(1);
-    expect(result[0].lastPerformed).toEqual(new Date('2024-01-13T10:00:00.000Z'));
+    expect(result[0]?.isEligible).toBe(true);
+    expect(result[0]?.frequency14Days).toBe(1);
+    expect(result[0]?.lastPerformed).toEqual(new Date('2024-01-13T10:00:00.000Z'));
   });
 });

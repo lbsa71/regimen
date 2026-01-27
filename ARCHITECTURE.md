@@ -39,37 +39,38 @@ The project uses npm workspaces to manage the monorepo:
 regimen/
 ├── frontend/                 # React/Vite workspace
 │   ├── src/
+│   │   ├── components/      # React components
+│   │   │   ├── ExerciseList.tsx
+│   │   │   ├── ExerciseRow.tsx
+│   │   │   ├── Header.tsx
+│   │   │   ├── SignIn.tsx
+│   │   │   └── index.ts
+│   │   ├── hooks/           # Custom React hooks
+│   │   │   ├── useAuth.tsx
+│   │   │   ├── useApi.ts
+│   │   │   └── index.ts
+│   │   ├── types/           # TypeScript types
+│   │   │   └── index.ts
+│   │   ├── utils/           # Utility functions
+│   │   │   └── exercises.ts
+│   │   ├── __tests__/       # Frontend tests
+│   │   │   └── exercises.test.ts
 │   │   ├── App.tsx          # Root component
-│   │   └── main.tsx         # Entry point
+│   │   ├── App.css          # Application styles
+│   │   ├── main.tsx         # Entry point
+│   │   └── vite-env.d.ts    # Vite environment types
+│   ├── index.html           # HTML entry point
 │   ├── package.json
 │   ├── tsconfig.json
-│   └── vite.config.ts
+│   ├── tsconfig.node.json
+│   ├── vite.config.ts
+│   └── vitest.config.ts
 │
 ├── backend/                  # Express.js workspace
 │   ├── src/
 │   │   └── index.ts         # Express server
 │   ├── package.json
 │   └── tsconfig.json
-│
-├── src/
-│   └── client/              # Shared React components
-│       ├── components/
-│       │   ├── ExerciseList.tsx
-│       │   ├── ExerciseRow.tsx
-│       │   ├── Header.tsx
-│       │   └── SignIn.tsx
-│       ├── hooks/
-│       │   ├── useAuth.tsx
-│       │   └── useApi.ts
-│       ├── types/
-│       │   └── index.ts
-│       ├── utils/
-│       │   └── exercises.ts
-│       └── __tests__/
-│           └── exercises.test.ts
-│
-├── public/                   # Static assets
-│   └── index.html
 │
 ├── .github/
 │   └── workflows/
@@ -119,7 +120,7 @@ regimen/
 | `useAuth` | Google OAuth context, token management, sign in/out |
 | `useApi` | Authenticated API requests to backend |
 
-### Business Logic (utils/exercises.ts)
+### Business Logic (frontend/src/utils/exercises.ts)
 
 - **Eligibility**: Exercise is eligible if not performed yesterday
 - **Sorting**: Category (Push → Pull → Legs), then 14-day frequency, then recency
