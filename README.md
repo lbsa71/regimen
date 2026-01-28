@@ -31,9 +31,12 @@ Each exercise requires one full rest day between sessions. That's the only rule.
 
 ### Sorting Priority
 
-1. **Category**: Push → Pull → Legs
+1. **Category**: Push, Pull, Legs in order of 'urgency' (See below)
 2. **14-day frequency**: Less frequent exercises appear first
 3. **Recency**: Exercises done longest ago rank higher
+
+### Category Urgency
+'urgency' is calculated by taking the total sum of recorded exercises in that category the last 14 days and divide it by the number of excercises - i.e. the fewer recorded exercises, the higher up the list the category should rank.
 
 ### Exercise Categories
 
